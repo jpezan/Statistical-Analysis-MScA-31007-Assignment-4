@@ -1,0 +1,30 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+datapath<-"~/UChicago/31007_Stats_Lec/Assignment4"
+dat <- read.table(paste(datapath,'Week4_Test_Sample.csv',sep = '/'), header=TRUE)
+Estimated.Residuals <- lm(Y ~ X,data=dat)
+Estimated.Residuals <- residuals(Estimated.Residuals)
+#Estimated.Residuals <- runif(n=1000, min = -1, max = 1)
+
+# Isolate positive values
+pos.values <- Estimated.Residuals > 0
+
+# Returns values that are TRUE (positive values)
+true.values <- Estimated.Residuals[Estimated.Residuals > 0]
+
+# Returns mean of values that are TRUE
+mean.values <- mean(Estimated.Residuals[Estimated.Residuals > 0])
+
+# Return value based on logic
+unscrambled.selection.sequence <- ifelse(Estimated.Residuals > 0, 1, 0)
+unscrambled.selection.sequence
+
+# Save File
+res <- list(Unscrambled.Selection.Sequence =  unscrambled.selection.sequence)
+write.table(res, file = paste(datapath,'result.csv',sep = '/'), row.names = F)
+```
+
